@@ -1,0 +1,109 @@
+Instruction for user:
+/**
+ * @author Chenyang_Liu 16206550
+ * If you have any question, please connect: chenyang.liu@ucdconnect.ie
+ */
+The code was run successfully.
+Detailing usage:
+	The process to run the code:
+		This project is a .JAVA code, please import it into JAVA execution software (e.g: Eclipse)
+		Run the Main.java in RUNING package ( if running other Main.java in usingTCP.package or usingUDP.package, 
+			there will appear an error)
+		On the Console the user should follow the below steps to get Throughput and TotalTime:
+		1. The first line will appear [Please choose Protocol(UDP/TCP):]
+			User need to input: UDP (if you want to use UDP Protocol);
+				or TCP (if you want to use TCP Protocol)
+			Then click "enter" in keyboard
+		2. The second line will appear [Please choose Standard(802.11a, 802.11g, 802.11ac1, 802.11ac2, 802.11ax):]
+			User need to input:"802.11a (if you want to use Standard 802.11a), 
+				or 802.11g, 
+				or 802.11ac1, 
+				or 802.11ac2, 
+				or 802.11ax
+			Then click "enter" in keyboard
+		3. The third line will appear [Please choose DataRate...]:
+			DataRate for each standard, which the user used is shown in the third line, 
+				input one of the DataRate
+			Then click "enter" in keyboard
+----------------------------------------------------------------------------------------------------------------------			
+		4. Then the result will output in line 9 to line 12
+			Throughput [Mbps] in the normal case: ...
+			The total time to transmit 10GB(μs): ...
+			Throughput [Mbps] in the best case: ...
+			The total time to transmit 10GB(μs): ...
+		5. There is some notes for the result calculation: 
+			line 4 show the choice of the user
+			line 5 to line 8 say there are two type of throughput on 802.11ac1, 802.11ac2, 802.11ax, 802.11n
+				802.11a and 802.11g only have value in the normal case
+				TotalFrame(10GB): 10737418240				
+Explaining:
+	Why there is a difference between the actual throughput and the advertised data rate:
+		The actual throughput, which is the maximum amount of data can be transmitted from a sender to a receiver.
+		The advertised data rate is the actual amount of data that has been transmitted. 
+		There are different factors, such as latency, user density or environmental noise, affecting the throughput. 
+			User density or environmental noise can and likely will change over time, and will effect the 
+			throughput as well.
+---------------------------------------------------------------------------------------------------------------------
+	802.11 performance improves after each release. Briefly discuss the trade-offs involved in such improvements:
+		The performance was improved in five parts: Frequency band, Bandwidth, Modulation, Max physical rate and 
+		antennas.
+			The range of Bandwidth band and Max physical rate has been increased, and the maximum value of them 
+			have been higher
+			Method of signal modulation has been changed from DSSS or FSSS to OFDM
+			Type of antennas has been changed from SISO(signal in signal out) to MIMO(multiple in and multiple out)
+		Trade-offs involved in such improvements:
+			The reliability has been improved:
+			Each receiving antenna gets a slightly different version of the signal allowing for successful decoding) 
+			The throughput has been improved:
+			Multiple antennas can be used simultaneously and the Bandwidth has been increased. This means the channel
+			could receive-transmit more than one signal at the same time, and thus this increases the throughput.
+			The cost on Bits has been decreased (https://cse.buffalo.edu/faculty/dimitrio/publications/infocom15.pdf).
+	        ---------------------------------------------------------------------------------------------------------
+			With the increasing of the reliability and the throughput, the cost on money also increasing:
+			There are more money needed to improve the ability of the system, such as construction and configuration.
+			And the improvements not always are energy efficiency.
+Introduction:
+	There are three inputs:
+		Protocol (UDP/TCP);
+		Standard (802.11a, 802.11g, 802.11n, 802.11ac_w1, 802.11ac_w2,802.11ax);
+		Available data rate for each standard.
+	-----------------------------------------------------------------------------------------------
+	There are four output:
+		Throughput [Mbps] in the normal case;
+		The total time to transmit 10GB(μs) in the normal case;
+		Throughput [Mbps] in the best case;
+		The total time to transmit 10GB(μs) in the best case;
+	-----------------------------------------------------------------------------------------------
+	802.11n, 802.11ac_w1, 802.11ac_w2,802.11ax In best case:	
+		40MHz/4SS for .11n: 46 μs (using 4 Spatial Streams)
+			NChan: 108
+		80MHz/3SS for .11ac_w1: 56.8 μs (using 3 Spatial Streams)
+			NChan: 234
+		160MHz/8SS for .11ac_w2: 92.8 μs (using 8 Spatial Streams) 
+			NChan: 468
+		160MHz/8SS for .11ax: 92.8 μs (using 8 Spatial Streams) 
+			NChan: 1960
+	-----------------------------------------------------------------------------------------------
+	The structure of the code:
+		RUNING.package control TCP.package and UDP.package;
+		TCP.package or UDP.package control the calculation on TCP transmission or UDP transmission; 
+		In each TCP.package or UDP.package there are six class (Main, Protocol802.11a, Protocol802.11g, 
+		Protocol802.11n, Protocol802.11ac_w1, Protocol802.11ac_w2 and Protocol802.11ax)
+	The structure of each Protocol802.11... class:
+		There are three main method:Throughtput(); Oncetime() and Totaltime(). 
+		 * A single data frame exchange equation for UDP:
+	 	 *         DIFS+RTS+SIFS+CTS+SIFS+DATA+SIFS+ACK
+	 	 * A single data frame exchange equation for TCP:
+	 	 * 		   DIFS+RTS+SIFS+CTS+SIFS+TCPDATA+SIFSt+ACK+DIFS++RTS+SIFS+CTS+SIFS+TCPACK+SIFS+ACK; 
+	 	 * A single data frame exchange equation for 802.11g need to add Extension.
+		 * Throughtput(): to calculate
+		 *         Throughput: to calculate Once Transmission Time
+		 *         Onceframe is 1500;
+		 * Oncetime equation is:
+		 *         DIFSt+Preamblet+RTSt+SIFSt+Preamblet+CTSt+SIFSt+Preamble   t+DATAt+SIFSt+Preamblet+ACKt
+		 * Throughtput Equation is: 
+		 * 		   Once_frame/Once_time
+		 * TotalTime Equation is:
+		 * 		  OnceTime*TransmissionTimes
+		 */
+		There are the details on parameter in UDP.Protocol802.11a.java
